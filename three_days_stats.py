@@ -13,7 +13,8 @@ def three_days_stats(stats: List[int]) -> int:
 
                 if (first_value + second_value + third_value) == 0:
                     new_max = first_value * second_value * third_value
-                    max_multiplication = new_max if new_max > max_multiplication and new_max > 0 else max_multiplication
+                    if new_max > max_multiplication and new_max > 0:
+                        max_multiplication = new_max
 
     return max_multiplication
 
