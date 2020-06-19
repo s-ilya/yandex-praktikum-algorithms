@@ -1,50 +1,33 @@
-from collections import deque
-
-
 def binary_sum(left: str, right: str) -> str:
-    left_numbers = list(map(int, left))
-    right_numbers = list(map(int, right))
+    left_numbers = [int(digit) for digit in left]
+    right_numbers = [int(digit) for digit in right]
 
     left_index = len(left_numbers) - 1
     right_index = len(right_numbers) - 1
     carried_digit = 0
-    result = deque()
+    result = list()
 
     while left_index >= 0 and right_index >= 0:
-        sum_carried_tuple = sum_digits(left_numbers[left_index],
-                                       right_numbers[right_index],
-                                       carried_digit)
-
-        result.appendleft(sum_carried_tuple[0])
-        carried_digit = sum_carried_tuple[1]
+        carried_digit, sum = divmod(left_numbers[left_index] + right_numbers[right_index] + carried_digit, 2)
+        result.append(sum)
         left_index -= 1
         right_index -= 1
 
     while left_index >= 0:
-        sum_carried_tuple = sum_digits(left_numbers[left_index], 0,
-                                       carried_digit)
-
-        result.appendleft(sum_carried_tuple[0])
-        carried_digit = sum_carried_tuple[1]
+        carried_digit, sum = divmod(left_numbers[left_index] + carried_digit, 2)
+        result.append(sum)
         left_index -= 1
 
     while right_index >= 0:
-        sum_carried_tuple = sum_digits(0, right_numbers[right_index],
-                                       carried_digit)
+        carried_digit, sum = divmod(right_numbers[right_index] + carried_digit, 2)
 
-        result.appendleft(sum_carried_tuple[0])
-        carried_digit = sum_carried_tuple[1]
+        result.append(sum)
         right_index -= 1
 
     if carried_digit != 0:
-        result.appendleft(carried_digit)
+        result.append(carried_digit)
 
-    return "".join(map(str, result))
-
-
-def sum_digits(a, b, carried):
-    sum = a + b + carried
-    return sum % 2, sum // 2
+    return "".join([str(digit) for digit in reversed(result)])
 
 
 if __name__ == '__main__':
