@@ -43,8 +43,8 @@ def binary_sum(left: str, right: str) -> str:
 
 
 def sum_digits(a, b, carried):
-    local_sum = a + b + carried
-    return local_sum % 2, local_sum // 2
+    sum = a + b + carried
+    return sum % 2, sum // 2
 
 
 if __name__ == '__main__':

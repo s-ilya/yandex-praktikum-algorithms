@@ -11,11 +11,5 @@ class BinarySumTest(TestCase):
         self.assertEqual(binary_sum("1", "1"), "10")
         self.assertEqual(binary_sum("100", "1"), "101")
         self.assertEqual(binary_sum("1010", "1011"), "10101")
-
-        self.assertEqual(
-            binary_sum(
-                format(2147483647, 'b'),
-                format(2147483647, 'b')
-            ),
-            format(2147483647 + 2147483647, 'b')
-        )
+        self.assertEqual(binary_sum(format(9223372036854775807, 'b'), format(9223372036854775807, 'b')),
+                         format(9223372036854775807 + 9223372036854775807, 'b'))
