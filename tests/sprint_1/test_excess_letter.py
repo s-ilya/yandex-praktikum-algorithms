@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from excess_letter import excess_letter
+from sprint_1.excess_letter import excess_letter
 
 
 class ExcessLetterTest(TestCase):

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from not_double_number import not_double_number
+from sprint_1.not_double_number import not_double_number
 
 
 class NotDoubleNumberTest(TestCase):

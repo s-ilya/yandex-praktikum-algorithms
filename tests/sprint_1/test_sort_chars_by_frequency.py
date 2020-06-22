@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from sort_chars_by_frequency import sort_chars_by_frequency
+from sprint_1.sort_chars_by_frequency import sort_chars_by_frequency
 
 
 class SortCharsByFrequencyTest(TestCase):

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from b_transpose import transpose
+from sprint_1.b_transpose import transpose
 
 
 class TransposeTest(TestCase):

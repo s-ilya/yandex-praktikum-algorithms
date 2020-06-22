@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from three_days_stats import three_days_stats
+from sprint_1.three_days_stats import three_days_stats
 
 
 class ThreeDaysStatsTest(TestCase):

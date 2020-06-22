@@ -1,7 +1,7 @@
 from unittest import TestCase, skip
 import random
 
-from merge_ids import merge_ids
+from sprint_1.merge_ids import merge_ids
 
 
 class MergeIdsTest(TestCase):

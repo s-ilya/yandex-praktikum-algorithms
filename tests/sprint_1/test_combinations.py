@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from combinations import combinations
+from sprint_1.combinations import combinations
 
 
 class CombinationsTest(TestCase):

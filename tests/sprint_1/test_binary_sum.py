@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from binary_sum import binary_sum
+from sprint_1.binary_sum import binary_sum
 
 
 class BinarySumTest(TestCase):
