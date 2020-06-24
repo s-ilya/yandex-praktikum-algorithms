@@ -39,3 +39,22 @@ class StackQueueTest(TestCase):
         self.assertEqual(2, self.q.get())
         self.assertEqual(3, self.q.get())
         self.assertEqual(4, self.q.get())
+
+    def test_multiple_buckets(self):
+        q = StackQueue(bucket_capacity=2)
+
+        q.put(1)
+        q.put(2)
+        q.put(3)
+        q.put(4)
+
+        self.assertEqual(1, q.get())
+        self.assertEqual(2, q.get())
+
+        q.put(5)
+        q.put(6)
+
+        self.assertEqual(3, q.get())
+        self.assertEqual(4, q.get())
+        self.assertEqual(5, q.get())
+        self.assertEqual(6, q.get())
