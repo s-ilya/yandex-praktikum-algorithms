@@ -22,3 +22,14 @@ class HasCycleTest(TestCase):
         first.next = second
 
         self.assertTrue(hasCycle(first))
+
+    def test_inner_cycle(self):
+        first = Node(value=1)
+        second = Node(value=2)
+        third = Node(value=3)
+
+        first.next = second
+        second.next = third
+        third.next = second
+
+        self.assertTrue(hasCycle(first))
