@@ -1,3 +1,5 @@
+# https://contest.yandex.ru/contest/18168/run-report/33545328/
+
 class Stack:
     def __init__(self):
         self.items = []
