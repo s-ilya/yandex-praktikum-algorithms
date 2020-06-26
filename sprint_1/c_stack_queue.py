@@ -1,3 +1,6 @@
+# https://contest.yandex.ru/contest/18168/run-report/33553597/
+
+
 class Stack:
     def __init__(self):
         self.items = []
@@ -19,50 +22,33 @@ class Stack:
 
 
 class StackQueue:
-    def __init__(self, bucket_capacity=100):
-        self.__buckets = Stack()
-        self.__size = 0
-        self.__bucket_capacity = bucket_capacity
+    def __init__(self):
+        self.__stack = Stack()
+        self.__is_in_stack_order = True
 
     def put(self, value):
-        if self.__buckets.is_empty():
-            self.__buckets.push(Stack())
+        if not self.__is_in_stack_order:
+            self.__reverse_stack()
 
-        has_space_in_top_bucket = self.__buckets.peek().size() < self.__bucket_capacity
-        top_bucket = self.__buckets.pop() if has_space_in_top_bucket else Stack()
-
-        top_bucket.push(value)
-
-        self.__buckets.push(top_bucket)
-        self.__size += 1
+        self.__stack.push(value)
 
     def get(self):
-        tmp_buckets = Stack()
-        while self.__buckets.size() > 1:
-            tmp_buckets.push(self.__buckets.pop())
+        if self.__is_in_stack_order:
+            self.__reverse_stack()
 
-        bottom_bucket = self.__buckets.pop()
-
-        tmp_items = Stack()
-        while bottom_bucket.size() > 1:
-            tmp_items.push(bottom_bucket.pop())
-
-        item = bottom_bucket.pop()
-
-        while not tmp_items.is_empty():
-            bottom_bucket.push(tmp_items.pop())
-
-        if not bottom_bucket.is_empty():
-            self.__buckets.push(bottom_bucket)
-
-        while not tmp_buckets.is_empty():
-            self.__buckets.push(tmp_buckets.pop())
-
-        self.__size -= 1
-        return item
+        return self.__stack.pop()
 
     def get_size(self):
-        return self.__size
+        return self.__stack.size()
+
+    def __reverse_stack(self):
+        reversed_stack = Stack()
+
+        while not self.__stack.is_empty():
+            reversed_stack.push(self.__stack.pop())
+
+        self.__is_in_stack_order = not self.__is_in_stack_order
+        self.__stack = reversed_stack
 
 
 if __name__ == '__main__':
