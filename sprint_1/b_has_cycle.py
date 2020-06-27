@@ -1,4 +1,4 @@
-# https://contest.yandex.ru/contest/18168/run-report/33546904/
+# https://contest.yandex.ru/contest/18168/run-report/33557631/
 
 class Node:
     def __init__(self, value, next=None):
@@ -10,13 +10,19 @@ class Node:
 
 
 def hasCycle(head: Node) -> bool:
-    limit = pow(2, 20)
+    first = head
+    second = head
+    should_step_second = False
 
-    current_node = head
-    step = 0
+    while first is not None:
+        first = first.next
 
-    while step < limit and current_node is not None:
-        current_node = current_node.next
-        step += 1
+        if first == second:
+            return True
 
-    return current_node is not None
+        if should_step_second:
+            second = second.next
+
+        should_step_second = not should_step_second
+
+    return False
