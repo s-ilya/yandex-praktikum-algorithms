@@ -1,4 +1,4 @@
-# https://contest.yandex.ru/contest/18168/run-report/33545328/
+# https://contest.yandex.ru/contest/18168/run-report/33557711/
 
 class Stack:
     def __init__(self):
@@ -20,7 +20,12 @@ class Stack:
         return len(self.items)
 
 
-__operations = ["*", "/", "+", "-"]
+__operations = {
+    '*': lambda x, y: x * y,
+    '/': lambda x, y: x // y,
+    '+': lambda x, y: x + y,
+    '-': lambda x, y: x - y
+}
 
 
 def calculator(expression: str) -> int:
@@ -30,18 +35,13 @@ def calculator(expression: str) -> int:
     operands = Stack()
 
     for input_char in expression.split(" "):
-        if input_char in __operations:
+        if input_char in __operations.keys():
             right_operand = operands.pop()
             left_operand = operands.pop()
 
-            if input_char == "/":
-                operands.push(left_operand // right_operand)
-            elif input_char == "*":
-                operands.push(left_operand * right_operand)
-            elif input_char == "+":
-                operands.push(left_operand + right_operand)
-            elif input_char == "-":
-                operands.push(left_operand - right_operand)
+            operands.push(
+                __operations.get(input_char)(left_operand, right_operand)
+            )
         else:
             operands.push(int(input_char))
 
