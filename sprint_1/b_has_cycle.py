@@ -1,4 +1,5 @@
-# https://contest.yandex.ru/contest/18168/run-report/33557631/
+# https://contest.yandex.ru/contest/18168/run-report/33565246/
+
 
 class Node:
     def __init__(self, value, next=None):
@@ -9,20 +10,25 @@ class Node:
         return self.value
 
 
+def __advance(node: Node, steps=1) -> Node:
+    step = 0
+
+    while step < steps and node is not None:
+        node = node.next
+        step += 1
+
+    return node
+
+
 def hasCycle(head: Node) -> bool:
     first = head
     second = head
-    should_step_second = False
 
-    while first is not None:
-        first = first.next
+    while True:
+        first = __advance(first, steps=2)
+        second = __advance(second, steps=1)
 
-        if first == second:
+        if first is None:
+            return False
+        elif first == second:
             return True
-
-        if should_step_second:
-            second = second.next
-
-        should_step_second = not should_step_second
-
-    return False
