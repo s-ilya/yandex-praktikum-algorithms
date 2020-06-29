@@ -1,4 +1,4 @@
-# https://contest.yandex.ru/contest/18168/run-report/33553597/
+# https://contest.yandex.ru/contest/18168/run-report/33565304/
 
 
 class Stack:
@@ -23,32 +23,30 @@ class Stack:
 
 class StackQueue:
     def __init__(self):
-        self.__stack = Stack()
-        self.__is_in_stack_order = True
+        self.__in = Stack()
+        self.__out = Stack()
+        self.__size = 0
 
     def put(self, value):
-        if not self.__is_in_stack_order:
-            self.__reverse_stack()
-
-        self.__stack.push(value)
+        self.__size += 1
+        self.__in.push(value)
 
     def get(self):
-        if self.__is_in_stack_order:
-            self.__reverse_stack()
+        if self.__size == 0:
+            raise IndexError()
+        elif not self.__out.is_empty():
+            item = self.__out.pop()
+        else:
+            while not self.__in.is_empty():
+                self.__out.push(self.__in.pop())
 
-        return self.__stack.pop()
+            item = self.__out.pop()
+
+        self.__size -= 1
+        return item
 
     def get_size(self):
-        return self.__stack.size()
-
-    def __reverse_stack(self):
-        reversed_stack = Stack()
-
-        while not self.__stack.is_empty():
-            reversed_stack.push(self.__stack.pop())
-
-        self.__is_in_stack_order = not self.__is_in_stack_order
-        self.__stack = reversed_stack
+        return self.__size
 
 
 if __name__ == '__main__':
