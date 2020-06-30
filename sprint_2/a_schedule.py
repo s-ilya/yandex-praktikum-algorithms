@@ -1,28 +1,29 @@
-from dataclasses import dataclass
-from typing import List
-from operator import attrgetter
+# from dataclasses import dataclass
+# from typing import List
+from operator import itemgetter
 
 
-@dataclass()
-class Segment:
-    start: float
-    end: float
+#
+# @dataclass()
+# class Segment:
+#     start: float
+#     end: float
+#
+#     def __str__(self) -> str:
+#         return '{:g} {:g}'.format(self.start, self.end)
 
-    def __str__(self) -> str:
-        return '{:g} {:g}'.format(self.start, self.end)
 
-
-def max_disjoint_segments(segments: List[Segment]) -> List[Segment]:
+def max_disjoint_segments(segments):
     result = list()
 
     sorted_by_start_end = sorted(
-        segments, key=attrgetter('end', 'start'),
+        segments, key=itemgetter(1, 0),
     )
     current_end = 0
 
     for segment in sorted_by_start_end:
-        if segment.start >= current_end:
-            current_end = segment.end
+        if segment[0] >= current_end:
+            current_end = segment[1]
             result.append(segment)
 
     return result
@@ -32,15 +33,11 @@ if __name__ == '__main__':
     n = int(input())
 
     segments = list()
-
     for _ in range(n):
         start_end = [float(point) for point in input().split(' ')]
-        segments.append(
-            Segment(start=start_end[0], end=start_end[1])
-        )
+        segments.append(start_end)
 
     disjoint_segments = max_disjoint_segments(segments)
-
     print(len(disjoint_segments))
     for segment in disjoint_segments:
-        print(segment)
+        print('{:g} {:g}'.format(segment[0], segment[1]))
