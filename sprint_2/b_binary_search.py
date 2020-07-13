@@ -1,8 +1,7 @@
 not_found_index = -1
 
 
-def binary_search(arr: list, element: int, start: int = None, stop: int = None) -> int:
-    start = start if start is not None else 0
+def binary_search(arr: list, element: int, start: int = 0, stop: int = None) -> int:
     stop = stop if stop is not None else len(arr)
 
     if stop == start:
