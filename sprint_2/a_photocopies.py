@@ -8,16 +8,15 @@ def get_max_photos_to_backup(capacities: list) -> int:
     stored_photos = 0
 
     while len(sorted_capacities) > 1:
-        first = sorted_capacities.pop(0)
-        last = sorted_capacities.pop()
-
         stored_photos += 1
+        sorted_capacities[0] -= 1
+        sorted_capacities[-1] -= 1
 
-        if first >= 2:
-            sorted_capacities.append(first - 1)
+        if sorted_capacities[0] == 0:
+            sorted_capacities.pop(0)
 
-        if last >= 2:
-            sorted_capacities.append(last - 1)
+        if sorted_capacities[-1] == 0:
+            sorted_capacities.pop()
 
         sorted_capacities.sort()
 
