@@ -1,3 +1,5 @@
+# https://contest.yandex.ru/contest/18285/run-report/33630209/
+
 not_found_index = -1
 
 

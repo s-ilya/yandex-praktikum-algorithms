@@ -1,3 +1,5 @@
+# https://contest.yandex.ru/contest/18285/run-report/33630296/
+
 def get_max_photos_to_backup(capacities: list) -> int:
     non_empty_capacities = list(filter(lambda n: n > 0, capacities))
 
@@ -24,10 +26,8 @@ def get_max_photos_to_backup(capacities: list) -> int:
 
 
 if __name__ == '__main__':
-    input_txt = open('input.txt', mode='r')
-    output_txt = open('output.txt', mode='w')
+    with open('input.txt', mode='r') as input_txt, open('output.txt', mode='w') as output_txt:
+        _ = input_txt.readline()
+        capacities = [int(n) for n in input_txt.readline().split(' ')]
 
-    _ = input_txt.readline()
-    capacities = [int(n) for n in input_txt.readline().split(' ')]
-
-    output_txt.write(str(get_max_photos_to_backup(capacities)))
+        output_txt.write(str(get_max_photos_to_backup(capacities)))
