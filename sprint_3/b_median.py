@@ -35,7 +35,8 @@ def median(first: list, second: list) -> float:
 
     overall_len = len(first) + len(second)
 
-    assert overall_len != 0
+    if overall_len == 0:
+        raise ValueError()
 
     # k-th order statistics index starts from 1
     if overall_len % 2 == 1:

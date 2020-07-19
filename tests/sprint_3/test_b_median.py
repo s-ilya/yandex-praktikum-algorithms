@@ -5,7 +5,7 @@ from sprint_3.b_median import median
 
 class MedianTest(TestCase):
     def test_empty(self):
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(ValueError):
             median([], [])
 
     def test_single_left(self):
