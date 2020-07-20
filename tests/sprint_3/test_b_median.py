@@ -1,4 +1,6 @@
 from unittest import TestCase
+from random import randrange
+from statistics import median as statistics_median
 
 from sprint_3.b_median import median
 
@@ -33,3 +35,31 @@ class MedianTest(TestCase):
             [0, 0, 0, 1, 3, 3, 5, 10],
             [4, 4, 5, 7, 7, 7, 8, 9, 9, 10]
         ))
+
+    def test_equal_parts(self):
+        self.assertEqual(1, median([1, 1, 1, 1], [1, 1, 1, 1]))
+
+    def test_random(self):
+        for _ in range(10000):
+            max_elements = 100
+
+            first_n = 0
+            second_n = 0
+
+            while first_n == 0 and second_n == 0:
+                first_n = randrange(0, max_elements)
+                second_n = randrange(0, max_elements)
+
+            max_value = 1000
+            first = sorted([randrange(max_value) for _ in range(first_n)])
+            second = sorted([randrange(max_value) for _ in range(second_n)])
+            merged = sorted(first + second)
+
+            print('Test-case: [{}], [{}]'.format(
+                ', '.join([str(n) for n in first]),
+                ', '.join([str(n) for n in second])))
+
+            self.assertEqual(
+                statistics_median(merged),
+                median(first, second)
+            )
