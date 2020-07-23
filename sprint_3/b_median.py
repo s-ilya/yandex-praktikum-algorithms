@@ -1,4 +1,7 @@
-def leftmost_insort_index(arr: list, element: int, low: int = 0, high: int = None) -> int:
+from typing import List
+
+
+def __leftmost_insort_index(arr: List[int], element: int, low: int = 0, high: int = None) -> int:
     if high is None:
         high = len(arr)
 
@@ -20,7 +23,7 @@ def leftmost_insort_index(arr: list, element: int, low: int = 0, high: int = Non
         return low if arr[low] >= element else low + 1
 
 
-def rightmost_insort_index(arr: list, element: int, low: int = 0, high: int = None) -> int:
+def __rightmost_insort_index(arr: List[int], element: int, low: int = 0, high: int = None) -> int:
     if high is None:
         high = len(arr)
 
@@ -43,10 +46,10 @@ def rightmost_insort_index(arr: list, element: int, low: int = 0, high: int = No
 
 
 def __order_stats(
-        first: list,
+        first: List[int],
         first_start: int,
         first_end: int,
-        second: list,
+        second: List[int],
         second_start: int,
         second_end: int,
         k: int
@@ -62,11 +65,11 @@ def __order_stats(
         pivot_index = second_len // 2
         pivot = second[second_start + pivot_index]
 
-    left_first_end = leftmost_insort_index(first, pivot, low=first_start, high=first_end)
-    left_second_end = leftmost_insort_index(second, pivot, low=second_start, high=second_end)
+    left_first_end = __leftmost_insort_index(first, pivot, low=first_start, high=first_end)
+    left_second_end = __leftmost_insort_index(second, pivot, low=second_start, high=second_end)
 
-    right_first_start = rightmost_insort_index(first, pivot, low=first_start, high=first_end)
-    right_second_start = rightmost_insort_index(second, pivot, low=second_start, high=second_end)
+    right_first_start = __rightmost_insort_index(first, pivot, low=first_start, high=first_end)
+    right_second_start = __rightmost_insort_index(second, pivot, low=second_start, high=second_end)
 
     left_len = (left_first_end - first_start) + (left_second_end - second_start)
     right_len = (first_end - right_first_start) + (second_end - right_second_start)
@@ -96,7 +99,7 @@ def __order_stats(
         )
 
 
-def median(first, second):
+def median(first: List[int], second: List[int]) -> int:
     if first is None:
         first = []
 

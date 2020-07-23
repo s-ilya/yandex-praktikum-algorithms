@@ -23,7 +23,7 @@ class RadixSortTest(TestCase):
     def test_random(self):
         for _ in range(randrange(1000)):
             max_item = 100000
-            max_items = 10000
+            max_items = 1000
 
             unsorted = [
                 randrange(max_item) for _ in range(randrange(max_items))

@@ -55,10 +55,6 @@ class MedianTest(TestCase):
             second = sorted([randrange(max_value) for _ in range(second_n)])
             merged = sorted(first + second)
 
-            print('Test-case: [{}], [{}]'.format(
-                ', '.join([str(n) for n in first]),
-                ', '.join([str(n) for n in second])))
-
             self.assertEqual(
                 statistics_median(merged),
                 median(first, second)

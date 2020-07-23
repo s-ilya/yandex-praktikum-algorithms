@@ -1,21 +1,22 @@
 # https://contest.yandex.ru/contest/18883/run-report/33656926/
+from typing import List
 from functools import cmp_to_key
 
 
-def _compare_parts(a: str, b: str) -> int:
+def __compare_parts(a: str, b: str) -> int:
     ab = "{}{}".format(a, b)
     ba = "{}{}".format(b, a)
 
     return int(ab) - int(ba)
 
 
-def largest_number(parts: list) -> int:
+def largest_number(parts: List[int]) -> int:
     if len(parts) == 0:
         return 0
 
     parts_value_decreasing = sorted(
         [str(n) for n in parts],
-        key=cmp_to_key(_compare_parts),
+        key=cmp_to_key(__compare_parts),
         reverse=True
     )
 

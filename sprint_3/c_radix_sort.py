@@ -1,17 +1,17 @@
 from typing import List
 
-__max_rank = 6
+__max_digits = 6
 
 
 def __counting_sort(arr: List[int], digit_place: int) -> List[int]:
-    sorted_by_rank = [list() for _ in range(10)]
+    partitions_by_digit: List[List[int]] = [list() for _ in range(10)]
 
     for n in arr:
-        sorted_by_rank[(n // pow(10, digit_place)) % 10].append(n)
+        partitions_by_digit[(n // pow(10, digit_place)) % 10].append(n)
 
     result = list()
 
-    for rank in sorted_by_rank:
+    for rank in partitions_by_digit:
         result += rank
 
     return result
@@ -21,7 +21,7 @@ def radix_sort(arr: List[int]) -> List[int]:
     digit_place = 0
     result = arr
 
-    while digit_place <= __max_rank:
+    while digit_place <= __max_digits:
         result = __counting_sort(result, digit_place=digit_place)
         digit_place += 1
 
