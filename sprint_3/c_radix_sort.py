@@ -1,3 +1,4 @@
+# https://contest.yandex.ru/contest/18883/run-report/33661326/
 from typing import List
 
 __max_digits = 6
