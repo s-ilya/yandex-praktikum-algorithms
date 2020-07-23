@@ -1,5 +1,45 @@
-from random import randrange
-from bisect import bisect_left, bisect_right
+def leftmost_insort_index(arr: list, element: int, low: int = 0, high: int = None) -> int:
+    if high is None:
+        high = len(arr)
+
+    while (high - low) > 1:
+        arr_len = high - low
+        middle_index = low + (arr_len // 2)
+
+        if element < arr[middle_index]:
+            high = middle_index
+        else:
+            low = middle_index
+
+    arr_len = high - low
+
+    if arr_len == 0:
+        return low
+
+    if arr_len == 1:
+        return low if arr[low] >= element else low + 1
+
+
+def rightmost_insort_index(arr: list, element: int, low: int = 0, high: int = None) -> int:
+    if high is None:
+        high = len(arr)
+
+    while (high - low) > 1:
+        arr_len = high - low
+        middle_index = low + (arr_len // 2)
+
+        if element < arr[middle_index]:
+            high = middle_index
+        else:
+            low = middle_index
+
+    arr_len = high - low
+
+    if arr_len == 0:
+        return low
+
+    if arr_len == 1:
+        return low if arr[low] > element else low + 1
 
 
 def __order_stats(
@@ -15,16 +55,18 @@ def __order_stats(
     second_len = second_end - second_start
     overall_len = first_len + second_len
 
-    pivot_index = randrange(overall_len)
+    if first_len >= second_len:
+        pivot_index = first_len // 2
+        pivot = first[first_start + pivot_index]
+    else:
+        pivot_index = second_len // 2
+        pivot = second[second_start + pivot_index]
 
-    pivot = first[first_start + pivot_index] if pivot_index < first_len else second[
-        second_start + (pivot_index - first_len)]
+    left_first_end = leftmost_insort_index(first, pivot, low=first_start, high=first_end)
+    left_second_end = leftmost_insort_index(second, pivot, low=second_start, high=second_end)
 
-    left_first_end = bisect_left(first, pivot, lo=first_start, hi=first_end)
-    left_second_end = bisect_left(second, pivot, lo=second_start, hi=second_end)
-
-    right_first_start = bisect_right(first, pivot, lo=first_start, hi=first_end)
-    right_second_start = bisect_right(second, pivot, lo=second_start, hi=second_end)
+    right_first_start = rightmost_insort_index(first, pivot, low=first_start, high=first_end)
+    right_second_start = rightmost_insort_index(second, pivot, low=second_start, high=second_end)
 
     left_len = (left_first_end - first_start) + (left_second_end - second_start)
     right_len = (first_end - right_first_start) + (second_end - right_second_start)
