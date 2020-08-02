@@ -73,7 +73,7 @@ class Heap:
         return len(self.__items) - 1
 
 
-def heap_sort(items: list, compare_fn) -> list:
+def heap_sort(items, compare_fn):
     heap = Heap(compare_fn)
 
     for item in items:
@@ -88,7 +88,7 @@ def heap_sort(items: list, compare_fn) -> list:
 
 
 class Participant:
-    def __init__(self, name: str, points: list):
+    def __init__(self, name, points):
         self.name = name
         self.points = points
 
@@ -108,14 +108,14 @@ class Participant:
 
         return Participant(name, points)
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.name + ' ' + ' '.join([str(n) for n in self.points])
 
 
 __KONDRATIY_SET = set('kondratiy')
 
 
-def compare_participants(this: Participant, that: Participant) -> int:
+def compare_participants(this, that):
     this_is_kondratiy = __KONDRATIY_SET.issubset(set(this.name))
     that_is_kondratiy = __KONDRATIY_SET.issubset(set(that.name))
 

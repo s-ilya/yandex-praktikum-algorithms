@@ -1,8 +1,8 @@
-from unittest import TestCase
-from random import randrange
 from functools import cmp_to_key
+from random import randrange
+from unittest import TestCase
 
-from sprint_4.c_heap_sort import heap_sort
+from sprint_4.c_heap_sort import heap_sort, Participant
 
 
 def int_cmp(a, b):
@@ -21,6 +21,16 @@ class TestHeapSort(TestCase):
 
     def test_two_reverse(self):
         self.assertEqual([1, 2], heap_sort([2, 1], int_cmp))
+
+    def test_reversed_order_of_insertion(self):
+        one = Participant('one', [0])
+        two = Participant('one', [0])
+        three = Participant('one', [0])
+
+        self.assertEqual(
+            [three, two, one],
+            heap_sort([one, two, three], lambda a, b: 1)
+        )
 
     def test_sample(self):
         self.assertEqual(
