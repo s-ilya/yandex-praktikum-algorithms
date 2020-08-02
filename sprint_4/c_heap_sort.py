@@ -1,7 +1,7 @@
 from math import floor
 
 
-class MaxHeap:
+class Heap:
     def __init__(self, compare_fn):
         self.__compare_fn = compare_fn
         self.__items = [None]
@@ -74,7 +74,7 @@ class MaxHeap:
 
 
 def heap_sort(items: list, compare_fn) -> list:
-    heap = MaxHeap(compare_fn)
+    heap = Heap(compare_fn)
 
     for item in items:
         heap.push(item)
