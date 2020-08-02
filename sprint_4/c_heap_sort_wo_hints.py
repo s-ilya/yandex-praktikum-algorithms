@@ -1,3 +1,5 @@
+# https://contest.yandex.ru/contest/18997/run-report/33722008/
+
 from math import floor
 
 
@@ -55,12 +57,11 @@ class Heap:
             left_child_idx = self.__left_child(idx)
             right_child_idx = self.__right_child(idx)
 
-            if self.__compare_fn(self.__items[left_child_idx], self.__items[idx]) < 0:
+            if self.__compare_fn(self.__items[left_child_idx], self.__items[swap_with_idx]) < 0:
                 swap_with_idx = left_child_idx
 
-            if right_child_idx < len(self.__items) \
-                    and self.__compare_fn(self.__items[right_child_idx], self.__items[idx]) < 0 \
-                    and self.__compare_fn(self.__items[right_child_idx], self.__items[left_child_idx]) < 0:
+            if right_child_idx < len(self.__items) and self.__compare_fn(self.__items[right_child_idx],
+                                                                         self.__items[swap_with_idx]) < 0:
                 swap_with_idx = right_child_idx
 
             if swap_with_idx == idx:
@@ -88,9 +89,10 @@ def heap_sort(items, compare_fn):
 
 
 class Participant:
-    def __init__(self, name, points):
+    def __init__(self, name, points, priority=0):
         self.name = name
         self.points = points
+        self.priority = priority
 
     def positive_points_sum(self):
         result = 0
@@ -101,12 +103,12 @@ class Participant:
         return result
 
     @staticmethod
-    def from_str(raw_input):
+    def from_str(raw_input, priority=0):
         parts = raw_input.split(' ')
         name = parts[0]
         points = [int(n) for n in parts[1:]]
 
-        return Participant(name, points)
+        return Participant(name, points, priority)
 
     def __str__(self):
         return self.name + ' ' + ' '.join([str(n) for n in self.points])
@@ -118,6 +120,9 @@ __KONDRATIY_SET = set('kondratiy')
 def compare_participants(this, that):
     this_is_kondratiy = __KONDRATIY_SET.issubset(set(this.name))
     that_is_kondratiy = __KONDRATIY_SET.issubset(set(that.name))
+
+    if that_is_kondratiy and this_is_kondratiy:
+        return that.priority - this.priority
 
     if that_is_kondratiy:
         return 1
@@ -134,7 +139,7 @@ def compare_participants(this, that):
     if this.name < that.name:
         return -1
     elif this.name == that.name:
-        return 0
+        return that.priority - this.priority
     else:
         return 1
 
@@ -142,7 +147,7 @@ def compare_participants(this, that):
 if __name__ == '__main__':
     with open('input.txt', mode='r') as input_txt, open('output.txt', mode='w') as output_txt:
         participants_n = int(input_txt.readline())
-        participants = [Participant.from_str(input_txt.readline()) for _ in range(participants_n)]
+        participants = [Participant.from_str(input_txt.readline(), n) for n in range(participants_n)]
 
         output_txt.writelines([
             str(participant) + '\n' for participant in heap_sort(participants, compare_participants)
