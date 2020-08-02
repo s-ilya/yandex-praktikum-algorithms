@@ -30,14 +30,9 @@ class Heap:
         self.__go_top(len(self.__items) - 1)
 
     def __go_top(self, idx):
-        while idx > 1:
-            parent_idx = self.__parent_idx(idx)
-
-            if self.__compare_fn(self.__items[parent_idx], self.__items[idx]) > 0:
-                self.__swap(idx, parent_idx)
-                idx = parent_idx
-            else:
-                return
+        while idx > 1 and self.__compare_fn(self.__items[self.__parent_idx(idx)], self.__items[idx]) > 0:
+            self.__swap(idx, self.__parent_idx(idx))
+            idx = self.__parent_idx(idx)
 
     def pop(self):
         if self.size() == 0:
