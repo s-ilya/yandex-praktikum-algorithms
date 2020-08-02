@@ -85,3 +85,65 @@ def heap_sort(items: list, compare_fn) -> list:
         result.append(heap.pop())
 
     return result
+
+
+class Participant:
+    def __init__(self, name: str, points: list):
+        self.name = name
+        self.points = points
+
+    def positive_points_sum(self):
+        result = 0
+
+        for point in self.points:
+            result += point if point > 0 else 0
+
+        return result
+
+    @staticmethod
+    def from_str(raw_input):
+        parts = raw_input.split(' ')
+        name = parts[0]
+        points = [int(n) for n in parts[1:]]
+
+        return Participant(name, points)
+
+    def __str__(self) -> str:
+        return self.name + ' ' + ' '.join([str(n) for n in self.points])
+
+
+__KONDRATIY_SET = set('kondratiy')
+
+
+def compare_participants(this: Participant, that: Participant) -> int:
+    this_is_kondratiy = __KONDRATIY_SET.issubset(set(this.name))
+    that_is_kondratiy = __KONDRATIY_SET.issubset(set(that.name))
+
+    if that_is_kondratiy:
+        return 1
+
+    if this_is_kondratiy:
+        return -1
+
+    this_points = this.positive_points_sum()
+    that_points = that.positive_points_sum()
+
+    if this_points != that_points:
+        return that_points - this_points
+
+    if this.name < that.name:
+        return -1
+    elif this.name == that.name:
+        return 0
+    else:
+        return 1
+
+
+if __name__ == '__main__':
+    with open('input.txt', mode='r') as input_txt, open('output.txt', mode='w') as output_txt:
+        participants_n = int(input_txt.readline())
+        participants = [Participant.from_str(input_txt.readline()) for _ in range(participants_n)]
+
+        output_txt.writelines([
+            str(participant) + '\n' for participant in heap_sort(participants, compare_participants)
+        ])
