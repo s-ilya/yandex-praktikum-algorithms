@@ -2,15 +2,15 @@
 
 __NOT_CALCULATED = -1
 
-__CACHED_VALUES = [__NOT_CALCULATED for _ in range(21)]
+__CACHED_CALCULATION = [__NOT_CALCULATED for _ in range(21)]
 
-__CACHED_VALUES[0] = 0
-__CACHED_VALUES[1] = 1
+__CACHED_CALCULATION[0] = 0
+__CACHED_CALCULATION[1] = 1
 
 
 def count_search_trees(nodes: int) -> int:
-    if __CACHED_VALUES[nodes] != __NOT_CALCULATED:
-        return __CACHED_VALUES[nodes]
+    if __CACHED_CALCULATION[nodes] != __NOT_CALCULATED:
+        return __CACHED_CALCULATION[nodes]
 
     possible_trees = 0
 
@@ -23,7 +23,7 @@ def count_search_trees(nodes: int) -> int:
 
         possible_trees += max(1, left_trees) * max(1, right_trees)
 
-    __CACHED_VALUES[nodes] = possible_trees
+    __CACHED_CALCULATION[nodes] = possible_trees
 
     return possible_trees
 
