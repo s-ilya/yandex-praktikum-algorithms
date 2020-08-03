@@ -1,3 +1,5 @@
+# https://contest.yandex.ru/contest/18997/run-report/33722008/
+
 from math import floor
 
 
