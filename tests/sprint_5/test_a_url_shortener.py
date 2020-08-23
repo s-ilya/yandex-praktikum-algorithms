@@ -47,7 +47,7 @@ class UrlShortenerTest(TestCase):
         self.assertEqual('http://0.com', self.storage.post('http://whatever.com', 'content'))
         self.assertEqual('content', self.storage.get('http://0.com'))
 
-    def test_post_get_unmatched(self):
+    def test_post_get_unmatched_zone(self):
         self.assertEqual('http://0.com', self.storage.post('http://whatever.com', 'content'))
         self.assertEqual('error', self.storage.get('http://0.ru'))
 
@@ -67,3 +67,59 @@ class UrlShortenerTest(TestCase):
         self.assertEqual('http://1.ru', self.storage.post('http://mail.ru', 'mail content'))
         self.assertEqual('yandex content', self.storage.get('https://0.com'))
         self.assertEqual('error', self.storage.get('https://1.com'))
+
+    def test_unmatched_scheme(self):
+        self.assertEqual('https://0.com', self.storage.post('https://domain.com', 'content'))
+        self.assertEqual('error', self.storage.get('http://0.com'))
+
+    def test_random_encode_decode(self):
+        BASE62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+        def lib_encode(num):
+            """Encode a positive number into Base X and return the string.
+
+            Arguments:
+            - `num`: The number to encode
+            - `alphabet`: The alphabet to use for encoding
+            """
+            if num == 0:
+                return BASE62[0]
+            arr = []
+            arr_append = arr.append  # Extract bound-method for faster access.
+            _divmod = divmod  # Access to locals is faster.
+            base = len(BASE62)
+            while num:
+                num, rem = _divmod(num, base)
+                arr_append(BASE62[rem])
+            arr.reverse()
+            return ''.join(arr)
+
+        def lib_decode(string):
+            """Decode a Base X encoded string into the number
+
+            Arguments:
+            - `string`: The encoded string
+            - `alphabet`: The alphabet to use for decoding
+            """
+            base = len(BASE62)
+            strlen = len(string)
+            num = 0
+
+            idx = 0
+            for char in string:
+                power = (strlen - (idx + 1))
+                num += BASE62.index(char) * (base ** power)
+                idx += 1
+
+            return num
+
+        for n in range(10000):
+            lib_encoded = lib_encode(n)
+            my_encoded = encode(n)
+
+            self.assertEqual(lib_encoded, my_encoded, msg='Error encoding {}'.format(n))
+
+            lib_decoded = lib_decode(lib_encoded)
+            my_decoded = decode(lib_encoded)
+
+            self.assertEqual(lib_decoded, my_decoded, msg='Error decoding {}'.format(lib_decoded))
