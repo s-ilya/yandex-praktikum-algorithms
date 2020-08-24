@@ -1,3 +1,5 @@
+# https://contest.yandex.ru/contest/19057/run-report/33824876/
+
 class HashTable:
     def __init__(self):
         self.__capacity = 1000
