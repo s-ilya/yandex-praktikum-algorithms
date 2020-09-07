@@ -1,7 +1,10 @@
 __reversed_cache = {}
 
+__palindromes_hashes = set()
+__non_palindromes_hashes = set()
 
-def __reverse(word: str) -> str:
+
+def __reverse(word):
     if word in __reversed_cache:
         return __reversed_cache[word]
 
@@ -11,8 +14,24 @@ def __reverse(word: str) -> str:
     return reversed_word
 
 
-def __is_palindrome(left: str, right: str) -> bool:
-    return left + right == __reverse(right) + __reverse(left)
+def __is_palindrome(left, right):
+    word = left + right
+    word_hash = hash(word)
+
+    if word_hash in __palindromes_hashes:
+        return True
+
+    if word_hash in __non_palindromes_hashes:
+        return False
+
+    is_palindrome = left + right == __reverse(right) + __reverse(left)
+
+    if is_palindrome:
+        __palindromes_hashes.add(word_hash)
+    else:
+        __non_palindromes_hashes.add(word_hash)
+
+    return is_palindrome
 
 
 if __name__ == '__main__':
@@ -30,7 +49,7 @@ if __name__ == '__main__':
                     continue
 
                 if __is_palindrome(left_part, right_part):
-                    palindrome_indices.append((left_index + 1, right_index + 1))
+                    palindrome_indices.append(str(left_index + 1) + ' ' + str(right_index + 1))
 
         for palindrome_index in palindrome_indices:
-            output_txt.write('{} {}\n'.format(palindrome_index[0], palindrome_index[1]))
+            output_txt.write(palindrome_index + '\n')
