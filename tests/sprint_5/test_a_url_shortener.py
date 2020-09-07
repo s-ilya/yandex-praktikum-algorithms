@@ -1,6 +1,31 @@
 from unittest import TestCase
+from urllib.parse import urlsplit
+from random import choice
+from RandomWordGenerator import RandomWord
 
-from sprint_5.a_url_shortener import decode, encode, RequestsStorage
+from a_url_shortener import RequestsStorage, decode, encode
+
+
+class RequestsStorageWorking:
+    def __init__(self):
+        self.__responses = dict()
+
+    def get(self, url: str):
+        return self.__responses[url] if url in self.__responses else 'error'
+
+    def post(self, url: str, content: str) -> str:
+        shortened_url = self.__get_shortened_url(len(self.__responses), url)
+        self.__responses[shortened_url] = content
+
+        return shortened_url
+
+    @staticmethod
+    def __get_shortened_url(n: int, url: str) -> str:
+        parsed = urlsplit(url)
+        parts = parsed.hostname.split('.')
+        encoded_hostname = encode(n) + '.' + parts[1]
+
+        return parsed.scheme + '://' + encoded_hostname
 
 
 class UrlShortenerTest(TestCase):
@@ -123,3 +148,39 @@ class UrlShortenerTest(TestCase):
             my_decoded = decode(lib_encoded)
 
             self.assertEqual(lib_decoded, my_decoded, msg='Error decoding {}'.format(lib_decoded))
+
+    def test_random_storage(self):
+        random_words = RandomWord(3)
+        storage = RequestsStorage()
+        storage_ok = RequestsStorageWorking()
+
+        urls = list()
+        methods = ['get', 'post']
+        commands = list()
+
+        def new_random_url():
+            scheme = ['http', 'https', 'ftp']
+
+            url = '{}://{}.{}'.format(
+                choice(scheme), random_words.generate(), random_words.generate()
+            )
+
+            return url if url not in urls else new_random_url()
+
+        for _ in range(90000):
+            method = choice(methods)
+
+            if method == 'get':
+                should_request_existing = choice([True, False])
+                url = choice(urls) if should_request_existing and len(urls) > 0 else new_random_url()
+                commands.append('get {}'.format(url))
+
+                self.assertEqual(storage_ok.get(url), storage.get(url), msg='\n'.join(commands))
+            else:
+                url = new_random_url()
+                content = ' '.join(random_words.getList(num_of_words=3))
+
+                urls.append(url)
+                commands.append('post {} {}'.format(url, content))
+
+                self.assertEqual(storage_ok.post(url, content), storage.post(url, content), msg='\n'.join(commands))

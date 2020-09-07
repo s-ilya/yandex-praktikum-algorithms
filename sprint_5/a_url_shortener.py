@@ -1,3 +1,5 @@
+# https://contest.yandex.ru/contest/19057/run-report/33833394/
+
 from math import floor
 from urllib.parse import urlsplit
 
@@ -35,29 +37,14 @@ def encode(data: int) -> str:
 
 class RequestsStorage:
     def __init__(self):
-        self.__responses = []
+        self.__responses = dict()
 
     def get(self, url: str):
-        n = self.__get_request_n(url)
-
-        if n < len(self.__responses) and self.__responses[n][0] == url:
-            return self.__responses[n][1]
-
-        return 'error'
-
-    @staticmethod
-    def __get_request_n(url: str) -> int:
-        parsed = urlsplit(url)
-        parts = parsed.hostname.split('.')
-
-        return decode(parts[0])
+        return self.__responses[url] if url in self.__responses else 'error'
 
     def post(self, url: str, content: str) -> str:
         shortened_url = self.__get_shortened_url(len(self.__responses), url)
-
-        self.__responses.append(
-            (shortened_url, content)
-        )
+        self.__responses[shortened_url] = content
 
         return shortened_url
 
